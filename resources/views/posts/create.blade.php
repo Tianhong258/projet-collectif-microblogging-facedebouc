@@ -1,4 +1,7 @@
-<form method="post" action="{{ route('posts.create') }}" class="mt-6 space-y-6" >
-    <button>Créer une poste</button>
-    <input type="textarea"/>
+<form action="{{ route('posts.store') }}" method="POST">
+    @csrf
+    <input type="text" name="title" placeholder="Titre du post">
+    <textarea name="content" placeholder="Contenu du post"></textarea>
+    <button type="submit">Créer le post</button>
 </form>
+
