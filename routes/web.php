@@ -1,8 +1,13 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -39,3 +44,11 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/posts/{id}', [PostController::class, 'show'])
+            ->name('posts.show');
+
+Route::get('/posts/create', function () {
+        return view('posts.create');
+})->name('posts.create');            
+Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
