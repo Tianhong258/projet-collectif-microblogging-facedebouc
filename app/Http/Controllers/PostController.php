@@ -1,23 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-
-
 use App\Models\Post;
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
 
-    
-
-
-    public function show($id)
-    {
-        $post = Post::findOrFail($id); // Récupérer le Post par son ID
-        return view('posts.show', ['post' => $post]); // Retourner la vue avec les données du Post
-    }
+    public function show()
+{
+    // Récupérer l'utilisateur connecté
+    $user = Auth::user();
+    // Récupérer tous les posts de l'utilisateur connecté
+    $posts = $user->posts;
+    return view('posts.show', compact('posts'));
+}
 
     public function store(Request $request)
     {
@@ -45,16 +43,11 @@ class PostController extends Controller
 
     public function create()
     {
-
         return view('posts.create');
     }
-    
-
     public function index()
-{
-    $posts = Post::all(); // Récupérer tous les posts
-    return view('posts.index', ['posts' => $posts]);
-}
-
-
+    {
+        $posts = Post::all(); // Récupérer tous les posts
+        return view('posts.index', compact('posts'));
+    }
 }

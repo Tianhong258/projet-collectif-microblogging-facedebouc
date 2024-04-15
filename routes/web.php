@@ -3,10 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
-
-
-
-
+use App\Http\Controllers\DashboardController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,17 +21,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/posts/create', [PostController::class, 'create', function(){
     return view('posts.create');
 }])->name('posts.create');
-Route::post('posts/create/post', [PostController::class,'store'])->name('posts.store');
-Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+
+
+
+Route::get('/posts/edit', [PostController::class, 'edit'])->name('posts.edit');
+Route::post('/posts/create/post', [PostController::class,'store'])->name('posts.store');
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('/myposts', [PostController::class, 'show'])->name('posts.show');
+Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update');
+
 
 
 Route::middleware('auth')->group(function () {
