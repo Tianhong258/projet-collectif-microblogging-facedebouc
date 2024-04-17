@@ -28,14 +28,12 @@ Route::get('/posts/create', [PostController::class, 'create', function(){
 }])->name('posts.create');
 
 
+Route::get('/myposts', [PostController::class, 'show'])->name('posts.show');//afficher les posts de l'utilisateur connecté + boutton de modification
+Route::get('/users/{user}', [PostController::class, 'showPostAuteur'])->name('posts.showPostAuteur');
 
-Route::get('/posts/edit', [PostController::class, 'edit'])->name('posts.edit');
-Route::post('/posts/create/post', [PostController::class,'store'])->name('posts.store');
-Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-Route::get('/myposts', [PostController::class, 'show'])->name('posts.show');
-Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update');
-
-
+Route::resource('posts', PostController::class)
+    ->only(['index', 'store', 'edit', 'update','destroy'])
+    ->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

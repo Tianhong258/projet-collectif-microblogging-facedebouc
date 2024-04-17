@@ -5,16 +5,14 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <a href="{{ route('posts.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Créer un post</a>
-            <a href="{{ route('posts.show') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Mes posts</a>
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+    <div class="py-6" style="margin-left: 10%;" >
+        
                     {{ __("You're logged in!") }}
-                </div>
-            </div>
-        </div>
+            
+    </div>
+    <div style="margin-left: 10%; margin-bottom : 10px;">
+        <a href="{{ route('posts.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Creat a post</a>
+        <a href="{{ route('posts.show') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">My posts</a>
     </div>
     <div>
             @include('posts.index')

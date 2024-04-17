@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
+
 
 class PostController extends Controller
 {
@@ -47,7 +52,48 @@ class PostController extends Controller
     }
     public function index()
     {
-        $posts = Post::all(); // Récupérer tous les posts
+    // Récupérer tous les posts
+        $posts = Post::with('user')->get();
         return view('posts.index', compact('posts'));
     }
+
+    public function destroy(Post $post): RedirectResponse
+    {
+        //
+        Gate::authorize('delete', $post);
+ 
+        $post->delete();
+ 
+        return redirect(route('posts.show'));
+    }
+
+    public function update(Request $request, Post $post): RedirectResponse
+    {   
+        Gate::authorize('update', $post);
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string|max:255',
+        ]);
+        $post->update($validated);
+        return redirect(route('posts.show'));
+    }
+
+    public function edit(Post $post):View
+    {
+        Gate::authorize('update',$post);
+        return view('posts.edit', [
+            'post' => $post,
+        ]);
+    }
+
+
+    public function showPostAuteur(User $user)
+{
+        // Récupérer tous les posts de l'utilisateur
+        $posts = $user->posts()->get();
+        
+        // Passer les posts récupérés à la vue pour les afficher
+        return view('posts.show', compact('posts'));
+    }
 }
+
